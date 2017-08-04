@@ -6,6 +6,15 @@ const yosay = require('yosay')
 const mkdirp = require('mkdirp')
 const _s = require('underscore.string')
 
+const defaultValidators = {
+  notNull: (input) => {
+    if (input) {
+      return true
+    } else {
+      return 'Please enter a valid input'
+    }
+  }
+}
 module.exports = class extends Generator {
   // note: arguments and options should be defined in the constructor.
   constructor (args, opts) {
@@ -42,12 +51,32 @@ module.exports = class extends Generator {
       'Welcome to the best ' + chalk.red('generator-cmmc-netpie-webapp') + ' generator!'
     ))
 
-    const prompts = [{
-      type: 'input',
-      name: 'name',
-      message: 'Your project name',
-      default: this.options.appname || this.appname // Default to current folder name
-    }]
+    const prompts = [
+      {
+        type: 'input',
+        name: 'name',
+        message: 'Your project name:',
+        default: this.options.appname || this.appname // Default to current folder name
+      },
+      {
+        type: 'input',
+        name: 'appId',
+        message: 'Your netpie appId:',
+        validate: defaultValidators.notNull
+      },
+      {
+        type: 'input',
+        name: 'appKey',
+        message: 'Your netpie appKey:',
+        validate: defaultValidators.notNull
+      },
+      {
+        type: 'input',
+        name: 'appSecret',
+        message: 'Your netpie appSecret:',
+        validate: defaultValidators.notNull
+      }
+    ]
 
     return this.prompt(prompts).then(answers => {
       // To access props later use this.props.someAnswer;
