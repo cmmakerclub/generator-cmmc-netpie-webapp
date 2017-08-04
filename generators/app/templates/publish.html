@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="libs/microgear.js"></script>
+  <script type="text/javascript">
+
+    const APPID = 'CNX'
+    const KEY = 't2KGUtafmLearhw'
+    const SECRET = 'r8ofs9Ya13WpRIC88PFFviwbM'
+
+    const DEVICE_NAME = 'pure'
+
+    microgear = Microgear.create({
+      key: KEY,
+      secret: SECRET,
+      alias: DEVICE_NAME
+    })
+
+    microgear.on('connected', function () {
+      microgear.setAlias(DEVICE_NAME)
+      console.log('connected')
+    })
+
+    // connect
+    microgear.resettoken(function (err) {
+      microgear.connect(APPID)
+    })
+
+  </script>
+</head>
+<body>
+<div id="data">[__CLICK TO SEND MESSAGE___]</div>
+<script>
+  document.getElementById('data').onclick = function () {
+    console.log('hello')
+    microgear.chat('nat', '0')
+    alert('published!')
+  }
+</script>
+
+</body>
+</html>
