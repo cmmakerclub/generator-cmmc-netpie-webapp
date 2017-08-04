@@ -1,4 +1,5 @@
 'use strict'
+const path = require('path')
 const Generator = require('yeoman-generator')
 const chalk = require('chalk')
 const yosay = require('yosay')
@@ -13,12 +14,24 @@ module.exports = class extends Generator {
     // // This makes `appname` argument.
     this.argument('appname', {type: String, required: false, description: 'app name'})
     // // And you can then access it later; e.g.
-    this.log(this.options.appname)
+    this.log(`this.options.appname = ${this.options.appname}`)
   }
 
   initializing () {
     this.props = {}
     this.pkg = require('../../package.json')
+  }
+
+  default () {
+    console.log(`this is default`)
+    if (path.basename(this.destinationPath()) !== this.props.name) {
+      this.log(
+        'Your generator must be inside a folder named ' + this.props.name + '\n' +
+        'I\'ll automatically create this folder.'
+      )
+      mkdirp(this.props.name)
+      this.destinationRoot(this.destinationPath(this.props.name))
+    }
   }
 
   prompting () {
@@ -44,10 +57,6 @@ module.exports = class extends Generator {
       this.log('cool feature', answers.cool)
       this.props = answers
     })
-  }
-
-  default () {
-    this.log(`this is default.`)
   }
 
   writing () {
@@ -120,6 +129,16 @@ module.exports = class extends Generator {
   }
 
   install () {
-    this.installDependencies()
+    // const commandExists = require('command-exists').sync
+    // const hasYarn = commandExists('yarn')
+    this.installDependencies({
+      npm: false,
+      yarn: false,
+      bower: true
+    })
+  }
+
+  end () {
+    console.log(`end`)
   }
 }
