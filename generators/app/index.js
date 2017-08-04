@@ -22,8 +22,7 @@ module.exports = class extends Generator {
 
     // // This makes `appname` argument.
     this.argument('appname', {type: String, required: false, description: 'app name'})
-    // // And you can then access it later; e.g.
-    this.log(`this.options.appname = ${this.options.appname}`)
+    // // And you can then access it later; e.g. this.appname
   }
 
   initializing () {
@@ -92,6 +91,8 @@ module.exports = class extends Generator {
     this._writingScripts()
     this._writingStyles()
     this._writingHtml()
+    this._writingLibraries()
+    this._writingConfig()
   }
 
   _writingStyles () {
@@ -122,10 +123,28 @@ module.exports = class extends Generator {
     )
   }
 
+  _writingConfig () {
+    const templateOptions = {
+      appname: this.props.name,
+      appId: this.props.appId,
+      appKey: this.props.appKey,
+      appSecret: this.props.appSecret
+    }
+
+    this.fs.copyTpl(this.templatePath('config.js'),
+      this.destinationPath('app/config.js'), templateOptions
+    )
+  }
+
   _writingMisc () {
     mkdirp('app/libs')
     mkdirp('app/images')
     mkdirp('app/fonts')
+  }
+
+  _writingLibraries () {
+    this.fs.copyTpl(this.templatePath('libs/microgear.js'),
+      this.destinationPath('app/libs/microgear.js'))
   }
 
   _writingBower () {
