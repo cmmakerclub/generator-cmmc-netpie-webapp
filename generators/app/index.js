@@ -23,14 +23,16 @@ module.exports = class extends Generator {
   }
 
   default () {
-    console.log(`this is default`)
     if (path.basename(this.destinationPath()) !== this.props.name) {
       this.log(
         'Your generator must be inside a folder named ' + this.props.name + '\n' +
         'I\'ll automatically create this folder.'
       )
-      mkdirp(this.props.name)
-      this.destinationRoot(this.destinationPath(this.props.name))
+
+      const sluggifiedName = this.props.name
+      // create-directory
+      mkdirp(sluggifiedName)
+      this.destinationRoot(this.destinationPath(sluggifiedName))
     }
   }
 
@@ -45,16 +47,10 @@ module.exports = class extends Generator {
       name: 'name',
       message: 'Your project name',
       default: this.options.appname || this.appname // Default to current folder name
-    }, {
-      type: 'confirm',
-      name: 'cool',
-      message: 'Would you like to enable the Cool feature?'
     }]
 
     return this.prompt(prompts).then(answers => {
       // To access props later use this.props.someAnswer;
-      this.log('app name', answers.name)
-      this.log('cool feature', answers.cool)
       this.props = answers
     })
   }
@@ -139,6 +135,6 @@ module.exports = class extends Generator {
   }
 
   end () {
-    console.log(`end`)
+    this.log(`Happy coding!`)
   }
 }
