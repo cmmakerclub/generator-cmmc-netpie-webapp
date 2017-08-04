@@ -29,7 +29,7 @@ module.exports = class extends Generator {
         'I\'ll automatically create this folder.'
       )
 
-      const sluggifiedName = this.props.name
+      const sluggifiedName = _s.slugify(this.props.name)
       // create-directory
       mkdirp(sluggifiedName)
       this.destinationRoot(this.destinationPath(sluggifiedName))
