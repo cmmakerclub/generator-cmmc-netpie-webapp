@@ -6,14 +6,14 @@
 First, install [Yeoman](http://yeoman.io) and generator-cmmc-netpie-webapp using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
 
 ```bash
-npm install -g yo
+npm install -g yo bower
 npm install -g generator-cmmc-netpie-webapp
 ```
 
 Then generate your new project:
 
 ```bash
-yo cmmc-netpie-webapp
+yo cmmc-netpie-webapp appname
 ```
 
 ## Getting To Know Yeoman
