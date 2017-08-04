@@ -85,12 +85,13 @@ module.exports = class extends Generator {
   }
 
   writing () {
+    this._writingMisc()
     this._writingGit()
     this._writingEditorConfig()
-    this._writingMisc()
     this._writingBower()
     this._writingScripts()
     this._writingStyles()
+    this._writingHtml()
   }
 
   _writingStyles () {
@@ -109,7 +110,16 @@ module.exports = class extends Generator {
   }
 
   _writingHtml () {
+    const templateOptions = {
+      appname: this.props.name,
+      appId: this.props.appId,
+      appKey: this.props.appKey,
+      appSecret: this.props.appSecret
+    }
 
+    this.fs.copyTpl(this.templatePath('index.html'),
+      this.destinationPath('app/index.html'), templateOptions
+    )
   }
 
   _writingMisc () {
@@ -126,8 +136,7 @@ module.exports = class extends Generator {
     }
 
     bowerJson.dependencies['jquery'] = '~2.1.1'
-    // if (this.includeJQuery) {
-    // }
+    // if (this.includeJQuery) {  }
 
     this.fs.writeJSON('bower.json', bowerJson)
     this.fs.copy(
