@@ -13,8 +13,8 @@
   <!-- endbuild -->
 
   <!-- build:css styles/main.css -->
-  <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="../bower_components/bulma/css/bulma.css">
+  <link rel="stylesheet" href="styles/main.css">
   <!-- endbuild -->
 </head>
 <body>
@@ -25,18 +25,58 @@
 <![endif]-->
 
 <div class="container">
-  <div class="header">
-    appName: <%= appname %>
-    appId: <%= appId %>
-    appKey: <%= appKey %>
-    appSecret: <%= appSecret %>
-  </div>
+  <section class="section">
+    <div class="container">
+      <h1 class="title">NETPIE</h1>
+      <h2 class="subtitle">
+        blah blah blah
+      </h2>
+      <div class="notification">
+        <p>appName: <%= appname %></p>
+        <p>appId: <%= appId %></p>
+        <p>appKey: <%= appKey %></p>
+        <p>appSecret: <%= appSecret %></p>
+      </div>
 
+      <div class="field">
+        <label class="label">Topic</label>
+        <div class="control">
+          <input id="topic-input" class="input" type="text" placeholder="/gearname/topic">
+        </div>
+      </div>
 
-  <div class="footer">
-    <p>♥ from the cmmc.io team</p>
-  </div>
+      <div class="field">
+        <label class="label">Message</label>
+        <div class="control">
+          <input id="payload-input" class="input" type="text" placeholder="payload">
+        </div>
+      </div>
+
+      <div class="field is-grouped">
+        <div class="control">
+          <button id='publish-button' class="button is-primary">Publish</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <article class="message">
+        <div class="message-header">
+          <p>Messages</p>
+          <!--<button class="delete"></button>-->
+        </div>
+        <div class="message-body">
+          <p id='incoming-messages'></p>
+        </div>
+      </article>
+    </div>
+  </section>
+
 </div>
+
 
 <!-- build:js scripts/vendor.js -->
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
@@ -45,8 +85,22 @@
 <!-- endbuild -->
 
 <!-- build:js scripts/main.js -->
-<script src="scripts/main.js"></script>
+<script src="libs/microgear.js"></script>
 <script src="scripts/config.js"></script>
+<script src="scripts/main.js"></script>
 <!-- endbuild -->
+
+
+<script type="text/javascript">
+  jQuery('document').ready(function ($) {
+    connect_netpie()
+    $('#publish-button').click(function () {
+      var topic = $('#topic-input').val()
+      var payload = $('#payload-input').val()
+      console.log("DEBUG: ", topic, payload);
+      microgear.publish(topic, payload)
+    })
+  })
+</script>
 </body>
 </html>
