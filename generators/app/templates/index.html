@@ -41,7 +41,7 @@
       <div class="field">
         <label class="label">Topic</label>
         <div class="control">
-          <input id="topic-input" class="input" type="text" placeholder="/gearname/topic">
+          <input id="topic-input" class="input" type="text" value="/gearname/topic" placeholder="/gearname/topic">
         </div>
       </div>
 
@@ -65,11 +65,10 @@
     <div class="container">
       <article class="message">
         <div class="message-header">
-          <p>Messages</p>
-          <!--<button class="delete"></button>-->
+          <p class="message-header-text">Message</p>
         </div>
         <div class="message-body">
-          <p id='incoming-messages'></p>
+          <p class="title" id='incoming-messages'>/p>
         </div>
       </article>
     </div>
@@ -97,7 +96,7 @@
     $('#publish-button').click(function () {
       var topic = $('#topic-input').val()
       var payload = $('#payload-input').val()
-      console.log("DEBUG: ", topic, payload);
+      console.log('DEBUG: ', topic, payload)
       microgear.publish(topic, payload)
     })
   })

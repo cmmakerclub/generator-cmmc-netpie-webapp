@@ -20,8 +20,9 @@ microgear.on('absent', function (event) {
 
 microgear.on('message', function (topic, msg) {
   console.log('on_message', topic, msg)
-  $p = $('<p>' + new Date() + 'message: ' + msg + ' from: ' + topic + '</p>')
-  $('#incoming-messages').prepend($p)
+  const $p = $('<p class="title">' + msg + '</p>')
+  $('#incoming-messages').html($p)
+  $('.message-header-text').text('Message: ' + topic + ' (' + new Date() + ')')
 })
 
 function connect_netpie () {

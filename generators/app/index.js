@@ -156,6 +156,7 @@ module.exports = class extends Generator {
 
     bowerJson.dependencies['jquery'] = '~2.1.4'
     bowerJson.dependencies['bulma'] = '^0.5.0'
+    bowerJson.dependencies['moment-timezone'] = '^0.5.13'
     // if (this.includeJQuery) {  }
 
     this.fs.writeJSON('bower.json', bowerJson)
