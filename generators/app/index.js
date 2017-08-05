@@ -61,17 +61,20 @@ module.exports = class extends Generator {
         type: 'input',
         name: 'appId',
         message: 'Your netpie appId:',
+        default: this.config.get('appId'),
         validate: defaultValidators.notNull
       },
       {
         type: 'input',
         name: 'appKey',
         message: 'Your netpie appKey:',
+        default: this.config.get('appKey'),
         validate: defaultValidators.notNull
       },
       {
         type: 'input',
         name: 'appSecret',
+        default: this.config.get('appSecret'),
         message: 'Your netpie appSecret:',
         validate: defaultValidators.notNull
       }
@@ -194,6 +197,9 @@ module.exports = class extends Generator {
   }
 
   end () {
+    this.config.set('appId', this.props.appId)
+    this.config.set('appKey', this.props.appKey)
+    this.config.set('appSecret', this.props.appSecret)
     this.log(`Happy coding!`)
   }
 }
