@@ -32,8 +32,9 @@ microgear.on('absent', function (event) {
 
 microgear.on('message', function (topic, msg) {
   const $p = $('<p class="title">' + msg + '</p>')
+  var dateString = moment().format('h:mm:ss a')
   $('#incoming-messages').html($p)
-  $('.message-header-text').text('Message: ' + topic + ' (' + new Date() + ')')
+  $('.message-header-text').text('[' + dateString + '] Message: ' + topic)
 })
 
 function hideNetpieConnectingIcon () {
@@ -43,7 +44,7 @@ function hideNetpieConnectingIcon () {
 function connect_netpie () {
   const startTime = new Date().getTime()
   Global.startedOn = startTime
-  Global.timeoutOn = startTime + (5 * 1000)
+  Global.timeoutOn = startTime + (10 * 1000)
   Global.timer1 = setInterval(function () {
     const currentTime = new Date().getTime()
     if (currentTime > Global.timeoutOn) {
