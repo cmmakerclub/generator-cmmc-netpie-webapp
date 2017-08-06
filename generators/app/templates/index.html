@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="description" content="">
   <meta name="viewport">
-  <title><%= appname %></title>
+  <title>appName: <%= appname %></title>
 
 
   <!-- build:css styles/vendor.css -->
@@ -14,6 +14,7 @@
 
   <!-- build:css styles/main.css -->
   <link rel="stylesheet" href="../bower_components/bulma/css/bulma.css">
+  <link rel="stylesheet" href="../bower_components/components-font-awesome/css/font-awesome.css">
   <link rel="stylesheet" href="styles/main.css">
   <!-- endbuild -->
 </head>
@@ -27,7 +28,7 @@
 <div class="container">
   <section class="section">
     <div class="container">
-      <h1 class="title">NETPIE.io</h1>
+      <h1 class="title">NETPIE.io<i class="fa-li fa fa-spinner fa-spin netpie-connecting"></i></h1>
       <h2 class="subtitle">
         webapp template
       </h2>
@@ -37,26 +38,19 @@
         <p>appKey: <%= appKey %></p>
         <p>appSecret: <%= appSecret %></p>
       </div>
-
-      <div class="field">
-        <label class="label">Topic</label>
-        <div class="control">
-          <input id="topic-input" class="input" type="text" value="/gearname/topic" placeholder="/gearname/topic">
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="label">Message</label>
-        <div class="control">
-          <input id="payload-input" class="input" type="text" placeholder="payload">
-        </div>
+      <div class="notification">
+        <p>topic: <%= defaultTopic %></p>
       </div>
 
       <div class="field is-grouped">
         <div class="control">
-          <button id='publish-button' class="button is-primary">Publish</button>
+          <button class="publish-on-button button is-primary">ON</button>
+        </div>
+        <div class="control">
+          <button class="publish-off-button button-off button is-danger">OFF</button>
         </div>
       </div>
+
 
     </div>
   </section>
@@ -68,7 +62,7 @@
           <p class="message-header-text">Message</p>
         </div>
         <div class="message-body">
-          <p class="title" id='incoming-messages'></p>
+          <p class="title" id='incoming-messages'>connecting..</p>
         </div>
       </article>
     </div>
@@ -93,11 +87,13 @@
 <script type="text/javascript">
   jQuery('document').ready(function ($) {
     connect_netpie()
-    $('#publish-button').click(function () {
-      var topic = $('#topic-input').val()
-      var payload = $('#payload-input').val()
-      console.log('DEBUG: ', topic, payload)
-      microgear.publish(topic, payload)
+    // var topic = $('#topic-input').val()
+    // var payload = $('#payload-input').val()
+    $('.publish-on-button').click(function () {
+      microgear.publish(Config.topic, 'ON')
+    })
+    $('.publish-off-button').click(function () {
+      microgear.publish(Config.topic, 'OFF')
     })
   })
 </script>

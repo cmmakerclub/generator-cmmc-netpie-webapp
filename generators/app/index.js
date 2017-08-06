@@ -32,13 +32,12 @@ module.exports = class extends Generator {
 
   default () {
     if (path.basename(this.destinationPath()) !== this.props.name) {
-      this.log(
-        'Your generator must be inside a folder named ' + this.props.name + '\n' +
+      this.log('Your generator must be inside a folder named ' + this.props.name + '\n' +
         'I\'ll automatically create this folder.'
       )
 
-      const sluggifiedName = _s.slugify(this.props.name)
       // create-directory
+      const sluggifiedName = _s.slugify(this.props.name)
       mkdirp(sluggifiedName)
       this.destinationRoot(this.destinationPath(sluggifiedName))
     }
@@ -46,9 +45,7 @@ module.exports = class extends Generator {
 
   prompting () {
     // Have Yeoman greet the user.
-    this.log(yosay(
-      'Welcome to the best ' + chalk.red('generator-cmmc-netpie-webapp') + ' generator!'
-    ))
+    this.log(yosay('Welcome to the best ' + chalk.red('generator-cmmc-netpie-webapp') + ' generator!'))
 
     const prompts = [
       {
@@ -77,6 +74,26 @@ module.exports = class extends Generator {
         default: this.config.get('appSecret'),
         message: 'Your netpie appSecret:',
         validate: defaultValidators.notNull
+      },
+      {
+        type: 'input',
+        name: 'deviceAlias',
+        default: this.config.get('deviceAlias') || 'hello-cmmc-alias',
+        message: 'Your netpie device alias',
+        validate: defaultValidators.notNull
+      },
+      {
+        type: 'input',
+        name: 'defaultTopic',
+        default: this.config.get('defaultTopic') || '/gearname/topic1',
+        message: 'your default publish topic',
+        validate: function (input) {
+          if (input.indexOf('/gearname/') === 0) {
+            return true
+          } else {
+            return 'topic must be started with /gearname/'
+          }
+        }
       }
     ]
 
@@ -107,10 +124,16 @@ module.exports = class extends Generator {
   }
 
   _writingScripts () {
-    this.fs.copy(
-      this.templatePath('main.js'),
-      this.destinationPath('app/scripts/main.js')
-    )
+    const templateOptions = {
+      appname: this.props.name,
+      appId: this.props.appId,
+      appKey: this.props.appKey,
+      appSecret: this.props.appSecret,
+      defaultTopic: this.props.defaultTopic,
+      deviceAlias: this.props.deviceAlias
+    }
+
+    this.fs.copyTpl(this.templatePath('main.js'), this.destinationPath('app/scripts/main.js'), templateOptions)
   }
 
   _writingHtml () {
@@ -118,12 +141,13 @@ module.exports = class extends Generator {
       appname: this.props.name,
       appId: this.props.appId,
       appKey: this.props.appKey,
-      appSecret: this.props.appSecret
+      appSecret: this.props.appSecret,
+      defaultTopic: this.props.defaultTopic,
+      deviceAlias: this.props.deviceAlias
     }
 
     this.fs.copyTpl(this.templatePath('index.html'),
-      this.destinationPath('app/index.html'), templateOptions
-    )
+      this.destinationPath('app/index.html'), templateOptions)
   }
 
   _writingConfig () {
@@ -131,7 +155,9 @@ module.exports = class extends Generator {
       appname: this.props.name,
       appId: this.props.appId,
       appKey: this.props.appKey,
-      appSecret: this.props.appSecret
+      appSecret: this.props.appSecret,
+      defaultTopic: this.props.defaultTopic,
+      deviceAlias: this.props.deviceAlias
     }
 
     this.fs.copyTpl(this.templatePath('config.js'),
@@ -160,6 +186,7 @@ module.exports = class extends Generator {
     bowerJson.dependencies['jquery'] = '~2.1.4'
     bowerJson.dependencies['bulma'] = '^0.5.0'
     bowerJson.dependencies['moment-timezone'] = '^0.5.13'
+    bowerJson.dependencies['components-font-awesome'] = '^4.7.0'
     // if (this.includeJQuery) {  }
 
     this.fs.writeJSON('bower.json', bowerJson)
@@ -197,9 +224,6 @@ module.exports = class extends Generator {
   }
 
   end () {
-    this.config.set('appId', this.props.appId)
-    this.config.set('appKey', this.props.appKey)
-    this.config.set('appSecret', this.props.appSecret)
     this.log(`Happy coding!`)
   }
 }
