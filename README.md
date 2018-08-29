@@ -16,23 +16,6 @@ Then generate your new project:
 yo cmmc-netpie-webapp appname
 ```
 
-## Getting To Know Yeoman
-
- * Yeoman has a heart of gold.
- * Yeoman is a person with feelings and opinions, but is very easy to work with.
- * Yeoman can be too opinionated at times but is easily convinced not to be.
- * Feel free to [learn more about Yeoman](http://yeoman.io/).
-
 ## License
 
 MIT © [Nat]()
-
-
-[npm-image]: https://badge.fury.io/js/generator-cmmc-netpie-webapp.svg
-[npm-url]: https://npmjs.org/package/generator-cmmc-netpie-webapp
-[travis-image]: https://travis-ci.org/cmmakerclub/generator-cmmc-netpie-webapp.svg?branch=master
-[travis-url]: https://travis-ci.org/cmmakerclub/generator-cmmc-netpie-webapp
-[daviddm-image]: https://david-dm.org/cmmakerclub/generator-cmmc-netpie-webapp.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/cmmakerclub/generator-cmmc-netpie-webapp
-[coveralls-image]: https://coveralls.io/repos/cmmakerclub/generator-cmmc-netpie-webapp/badge.svg
-[coveralls-url]: https://coveralls.io/r/cmmakerclub/generator-cmmc-netpie-webapp
